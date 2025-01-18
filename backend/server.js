@@ -46,3 +46,8 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
+
+  //Require cors
+  const cors = require('cors');
+  // Allow requests from all origins (for development only)
+  app.use(cors());
