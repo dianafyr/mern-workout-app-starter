@@ -1,6 +1,5 @@
 const express = require("express");
 const {
-  createWorkout,
   getWorkouts,
   getWorkout,
   createWorkout,
