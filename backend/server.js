@@ -15,6 +15,8 @@ const workoutRoutes = require("./routes/workouts");
 const userRoutes = require("./routes/user");
 // Set up the express app
 const app = express();
+//Require cors
+const cors = require('cors');
 
 // Middleware:
 // any code that executes between us getting a request on the server
@@ -22,6 +24,8 @@ const app = express();
 
 // Parse and attach data sent to server to request object
 app.use(express.json());
+
+app.use(cors());
 
 // Global middleware
 // the arrow function will fire for each request that comes in
@@ -48,7 +52,4 @@ mongoose
     console.log(err);
   });
 
-  //Require cors
-  const cors = require('cors');
-  // Allow requests from all origins (for development only)
-  app.use(cors());
+  
