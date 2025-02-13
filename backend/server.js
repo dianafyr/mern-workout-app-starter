@@ -1,55 +1,36 @@
-// Entry file for the backend app
-// where we register the express app
-
-// dovenv is the package that loads environment variables
-// from .env file into process.env object available globally in node.js environment
-// config() attaches environment variables to process.env
 require("dotenv").config();
-
-// Require express that installed via npm
 const express = require("express");
-// Require mongoose that installed via npm
 const mongoose = require("mongoose");
-// Require routes
+const cors = require("cors");
+ 
+// Import routes
 const workoutRoutes = require("./routes/workouts");
-const userRoutes = require("./routes/user");
-// Set up the express app
+const userRoutes = require("./routes/user"); // ✅ Ensure userRoutes is imported
+ 
+// Initialize Express app
 const app = express();
-//Require cors
-const cors = require('cors');
-
-// Middleware:
-// any code that executes between us getting a request on the server
-// and us sending a response back to the client
-
-// Parse and attach data sent to server to request object
-app.use(express.json());
 
 app.use(cors());
-
-// Global middleware
-// the arrow function will fire for each request that comes in
+ 
+// Middleware
+app.use(express.json());
 app.use((req, res, next) => {
   console.log(req.path, req.method);
   next();
 });
-
-// Routes
-// workoutRoutes is triggered when we make a request to /api/workouts
+ 
+// Register Routes
 app.use("/api/workouts", workoutRoutes);
-app.use("/api/user", userRoutes);
-
-// Connect to DB
+app.use("/api/user", userRoutes); // ✅ Ensure user routes are registered
+ 
+// Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
-    // Listen for requests
     app.listen(process.env.PORT, () => {
       console.log("Connected to DB & listening on port", process.env.PORT);
     });
   })
-  .catch((err) => {
-    console.log(err);
-  });
-
+  .catch((err) => console.log(err));
+ 
   
